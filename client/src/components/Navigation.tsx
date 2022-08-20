@@ -20,6 +20,7 @@ const Navigation = () => (
           role="button"
           type="button"
           data-toggle="side-menu"
+          href="/"
         >
           <span aria-hidden="true"></span>
           <span aria-hidden="true"></span>
@@ -30,14 +31,14 @@ const Navigation = () => (
         <div className="navbar-end">
           <ul className="navbar-item">
             <li>
-              <a className="navbar-item" href="#">
+              <a className="navbar-item" href="/about">
                 About
               </a>
             </li>
             <li></li>
             <li></li>
             <li>
-              <a className="navbar-item" href="#">
+              <a className="navbar-item" href="/methodology">
                 Methodology
               </a>
             </li>
