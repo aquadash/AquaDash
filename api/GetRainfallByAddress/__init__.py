@@ -1,7 +1,10 @@
+from audioop import add
 import logging
 import azure.functions as func
 import json
 from RainfallHelper import *
+from gmaps_query import gmaps_sat_image, gmaps_area_lat_long
+from roof_segmentation import roof_segmentation
 
 
 def main(req: func.HttpRequest) -> func.HttpResponse:
@@ -9,12 +12,24 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
 
     try:
         req_body = req.get_json()
-        latitude = float(req_body.get('latitude'))
-        longitude = float(req_body.get('longitude'))
+        address = req_body.get('address')
+    except ValueError:
+        return func.HttpResponse("You did something wrong (or maybe I did hah)", status_code = 400)
     except TypeError:
         return func.HttpResponse("Please supply a latitude and longitude in your request body.", status_code = 400)
+    
+    # Call the Google Maps API to retrive and process sat image at address
+    sat_img = gmaps_sat_image(address)
 
-    logging.info(f"Coordinates = ({latitude},{longitude})")
+    roof_highlight_color = (255, 153, 0) # (Blue,Green,Red) format not RGB
+    disp_img, area_percent = roof_segmentation(sat_img, roof_highlight_color)
+
+    total_area, latitude, longitude = gmaps_area_lat_long(address)
+    roof_surface_area_in_square_meters = round(total_area*area_percent, 2)
+
+    logging.info(f"Address: {address}")
+    logging.info(f"Lat: {latitude}, Long: {longitude}")
+    logging.info(f"Roof Surface Area: {roof_surface_area_in_square_meters} m^2")
 
     rainfall, tree = get_data()
 
@@ -25,6 +40,15 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
     month = [str(x) for x in range(1,13)]
     monthly_rain = dict(zip(month, mock_data))
 
+    final_result = {
+        "Address": address,
+        "Latitude": latitude,
+        "Longitude": longitude,
+        "MonthlyRainfall":monthly_rain,
+        "RoofSurfaceAreaSqm":roof_surface_area_in_square_meters,
+        "DisplayImage":"TBC_StringBuffer"
+    }
+
     return func.HttpResponse(json.dumps(
-        monthly_rain
+        final_result
     ), status_code=200)
