@@ -26,10 +26,13 @@ function App() {
   }, [callApi]);
 
   return (
-    <section className="is-relative pb-5" style={{ overflow: "hidden" }}>
-      <Navigation />
-      <Search />
-    </section>
+    <>
+      <section className="is-relative pb-5" style={{ overflow: "hidden" }}>
+        <Navigation />
+        <Search />
+      </section>
+      <pre>{JSON.stringify(data)}</pre>
+    </>
   );
 }
 
