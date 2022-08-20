@@ -29,6 +29,12 @@ class Rainfall:
         return sum(rainfall_36)/3.0
 
 
+def mock_monthly_trend(annual_rainfall):
+    annual_average = [159.6,158.3,140.7,92.5,73.7,67.8,56.5,45.9,45.7,75.4,97.0,133.3]
+    mean = sum(annual_average)/len(annual_average)
+    delta = [x - mean for x in annual_average]
+    return [round(annual_rainfall + x, 2) for x in delta]
+
 def get_data():
     logging.info('Creating tree and reference data')
     rainfall_df = pd.read_csv("rainfall.csv")
@@ -53,8 +59,11 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
 
     rain = Rainfall(rainfall, tree)
 
-    address_rain = round(rain.get_average_rainfall((latitude,longitude))/3,2)
+    annual_rain = round(rain.get_average_rainfall((latitude,longitude))/3,2)
+    mock_data = mock_monthly_trend(annual_rain)
+    month = [str(x) for x in range(1,13)]
+    monthly_rain = dict(zip(month, mock_data))
 
-    return func.HttpResponse(json.dumps({
-        "YearlyRainfall": address_rain
-    }), status_code=200)
+    return func.HttpResponse(json.dumps(
+        monthly_rain
+    ), status_code=200)
