@@ -29,7 +29,7 @@ function App() {
     <>
       <section className="is-relative pb-5" style={{ overflow: "hidden" }}>
         <Navigation />
-        <Search />
+        <Search search={(location) => console.log("Searching", location)} />
       </section>
       <pre>{JSON.stringify(data)}</pre>
     </>
