@@ -1,0 +1,6 @@
+
+## POST Lat & Long
+POST http://localhost:7071/api/GetRainfallByAddress
+Content-Type: application/json
+
+{"latitude": "-33.84","longitude": "151.21"}
