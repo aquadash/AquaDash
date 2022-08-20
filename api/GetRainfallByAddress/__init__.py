@@ -13,10 +13,11 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
     try:
         req_body = req.get_json()
         address = req_body.get('address')
+        assert type(address) == str
     except ValueError:
-        return func.HttpResponse("You did something wrong (or maybe I did hah)", status_code = 400)
-    except TypeError:
-        return func.HttpResponse("Please supply a latitude and longitude in your request body.", status_code = 400)
+        return func.HttpResponse("Please supply an address in your request body.)", status_code = 400)
+    except AssertionError:
+        return func.HttpResponse("Please supply an address in your request body.", status_code = 400)
     
     # Call the Google Maps API to retrive and process sat image at address
     sat_img = gmaps_sat_image(address)

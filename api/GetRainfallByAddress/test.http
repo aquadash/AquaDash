@@ -1,5 +1,5 @@
 
-## POST Lat & Long
+## POST Local
 POST http://localhost:7071/api/GetRainfallByAddress
 Content-Type: application/json
 
@@ -9,4 +9,4 @@ Content-Type: application/json
 POST https://govhack-function.azurewebsites.net/api/GetRainfallByAddress
 Content-Type: application/json
 
-{"latitude": "-33.84","longitude": "151.21"}
+{"address":"1 Denison Street, North Sydney, Australia"}
