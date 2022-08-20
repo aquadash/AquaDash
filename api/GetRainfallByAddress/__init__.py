@@ -15,14 +15,14 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
         address = req_body.get('address')
         assert type(address) == str
     except ValueError:
-        return func.HttpResponse("Please supply an address in your request body.)", status_code = 400)
+        return func.HttpResponse("Please supply an address in your request body.)", status_code=400)
     except AssertionError:
-        return func.HttpResponse("Please supply an address in your request body.", status_code = 400)
-    
+        return func.HttpResponse("Please supply an address in your request body.", status_code=400)
+
     # Call the Google Maps API to retrive and process sat image at address
     sat_img = gmaps_sat_image(address)
 
-    roof_highlight_color = (255, 153, 0) # (Blue,Green,Red) format not RGB
+    roof_highlight_color = (255, 153, 0)  # (Blue,Green,Red) format not RGB
     disp_img, area_percent = roof_segmentation(sat_img, roof_highlight_color)
 
     total_area, latitude, longitude = gmaps_area_lat_long(address)
@@ -30,24 +30,27 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
 
     logging.info(f"Address: {address}")
     logging.info(f"Lat: {latitude}, Long: {longitude}")
-    logging.info(f"Roof Surface Area: {roof_surface_area_in_square_meters} m^2")
+    logging.info(
+        f"Roof Surface Area: {roof_surface_area_in_square_meters} m^2")
 
     rainfall, tree = get_data()
 
     rain = Rainfall(rainfall, tree)
 
-    annual_rain = round(rain.get_average_rainfall((latitude,longitude))/3,2)
+    annual_rain = round(rain.get_average_rainfall((latitude, longitude))/3, 2)
     mock_data = mock_monthly_trend(annual_rain)
-    month = [str(x) for x in range(1,13)]
+    month = [str(x) for x in range(1, 13)]
     monthly_rain = dict(zip(month, mock_data))
 
     final_result = {
         "Address": address,
         "Latitude": latitude,
         "Longitude": longitude,
-        "MonthlyRainfall":monthly_rain,
-        "RoofSurfaceAreaSqm":roof_surface_area_in_square_meters,
-        "DisplayImage":"TBC_StringBuffer"
+        "MonthlyRainfall": monthly_rain,
+        "RoofSurfaceAreaSqm": roof_surface_area_in_square_meters,
+        "AnnualRainCollectionMm": round(annual_rain * roof_surface_area_in_square_meters, 2),
+        "TotalCostSaving": "$TBC",
+        "DisplayImage": "TBC_StringBuffer"
     }
 
     return func.HttpResponse(json.dumps(
