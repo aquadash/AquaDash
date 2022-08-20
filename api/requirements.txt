@@ -10,3 +10,4 @@ geopy>=1.17.0
 opencv-python>=4.6.0
 azure-functions
 scipy
+azure-kusto-data

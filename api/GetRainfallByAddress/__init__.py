@@ -5,6 +5,7 @@ import json
 from RainfallHelper import *
 from gmaps_query import gmaps_sat_image, gmaps_area_lat_long
 from roof_segmentation import roof_segmentation
+from consumption_helper import get_water_usage
 
 
 def main(req: func.HttpRequest) -> func.HttpResponse:
@@ -42,6 +43,9 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
     month = [str(x) for x in range(1, 13)]
     monthly_rain = dict(zip(month, mock_data))
 
+    monthly_consumption = get_water_usage("21270260")
+    # TODO: implement check to ensure monthly data returns same # of periods
+
     final_result = {
         "Address": address,
         "Latitude": latitude,
@@ -49,6 +53,7 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
         "MonthlyRainfall": monthly_rain,
         "RoofSurfaceAreaSqm": roof_surface_area_in_square_meters,
         "AnnualRainCollectionMm": round(annual_rain * roof_surface_area_in_square_meters, 2),
+        "MonthlyConsumptionMm":monthly_consumption,
         "TotalCostSaving": "$TBC",
         "DisplayImage": "TBC_StringBuffer"
     }
