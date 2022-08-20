@@ -1,6 +1,8 @@
 // @ts-nocheck
 import { useCallback, useEffect, useState } from "react";
 import "./App.css";
+import Breakdown from "./components/Breakdown";
+import Estimate from "./components/Estimate";
 import Navigation from "./components/Navigation";
 import Search from "./components/Search";
 import "./scss/bulma-theme.scss";
@@ -31,6 +33,9 @@ function App() {
         <Navigation />
         <Search search={(location) => console.log("Searching", location)} />
       </section>
+      <Estimate />
+      <Breakdown />
+
       <pre>{JSON.stringify(data)}</pre>
     </>
   );
