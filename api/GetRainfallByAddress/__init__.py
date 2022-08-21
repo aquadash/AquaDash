@@ -4,7 +4,7 @@ import azure.functions as func
 import json
 from RainfallHelper import *
 from gmaps_query import gmaps_sat_image, gmaps_area_lat_long
-from roof_segmentation import roof_segmentation
+from roof_segmentation import roof_segmentation, image_to_string
 from consumption_helper import get_water_usage
 
 def calc_water_savings(roof_size, avg_rainfall):
@@ -45,6 +45,7 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
 
     roof_highlight_color = (255, 153, 0)  # (Blue,Green,Red) format not RGB
     disp_img, area_percent = roof_segmentation(sat_img, roof_highlight_color)
+    segmented_img_buffer = image_to_string(disp_img)
 
     total_area, latitude, longitude = gmaps_area_lat_long(address)
     roof_surface_area_in_square_meters = round(total_area*area_percent, 2)
@@ -78,7 +79,7 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
         "AnnualRainCollectionMm": water_harvest_potential,
         "MonthlyConsumptionMm":monthly_consumption,
         "TotalCostSaving": "$" + str(round(predicted_savings_potential, 2)),
-        "DisplayImage": "TBC_StringBuffer"
+        "DisplayImage": "data:image/gif;base64," + segmented_img_buffer
     }
 
     return func.HttpResponse(json.dumps(
