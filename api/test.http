@@ -1,8 +1,8 @@
-## POST Local
+### POST Local
 POST http://localhost:7071/api/GetRainfallByAddress
 Content-Type: application/json
 
-{"address":"1 Denison Street, North Sydney, Australia"}
+{"address":"24 Young St, Milton QLD 4064"}
 
 ### POST Dev
 POST https://govhack-function-dev.azurewebsites.net/api/GetRainfallByAddress
