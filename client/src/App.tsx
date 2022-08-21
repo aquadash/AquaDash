@@ -14,6 +14,7 @@ import "./scss/bulma-theme.scss";
 interface IMonthlyConsumption {
   ManagedObjectid: number;
   Month: string;
+  typeM: string;
   TotalConsumed: number;
 }
 interface IApiResponse {
@@ -23,7 +24,7 @@ interface IApiResponse {
   AnnualRainfall: number;
   MonthlyRainfall: Record<string, nummber>;
   RoofSurfaceAreaSqm: number;
-  AnnualRainCollection: number;
+  AnnualRainCollectionMm: number;
   MonthlyConsumption: IMonthlyConsumption[];
   TotalCostSaving: string;
   DisplayImage: string;
@@ -41,54 +42,7 @@ const regulationLinks = [
 ];
 
 function App() {
-  const [data, setData] = useState<IApiResponse | undefined>({
-    Address: "24 Young St, Milton QLD 4064",
-    Latitude: -27.4653006,
-    Longitude: 153.0014803,
-    AnnualRainfall: 1352.74,
-    MonthlyRainfall: {
-      "1": 176.8,
-      "2": 175.5,
-      "3": 157.9,
-      "4": 109.7,
-      "5": 90.9,
-      "6": 85.0,
-      "7": 73.7,
-      "8": 63.1,
-      "9": 62.9,
-      "10": 92.6,
-      "11": 114.2,
-      "12": 150.5,
-    },
-    RoofSurfaceAreaSqm: 169.57,
-    AnnualRainCollection: 229384.12,
-    MonthlyConsumption: [
-      {
-        ManagedObjectid: 21270260,
-        typeM: "Pulse1",
-        Month: "06",
-        TotalConsumed: 286470,
-      },
-      {
-        ManagedObjectid: 21270260,
-        typeM: "Pulse1",
-        Month: "05",
-        TotalConsumed: 243490,
-      },
-      {
-        ManagedObjectid: 21270260,
-        typeM: "Pulse1",
-        Month: "04",
-        TotalConsumed: 0,
-      },
-    ],
-    TotalCostSaving: "$TBC",
-    DisplayImage: "",
-    Tank: {
-      max: 45000,
-      link: "https://example.com/tanksthatarebig",
-    },
-  });
+  const [data, setData] = useState<IApiResponse | undefined>(null);
   const [isLoading, setIsLoading] = useState(false);
 
   const API_ENDPOINT =
@@ -140,19 +94,19 @@ function App() {
           <Breakdown
             address={data?.Address}
             image={data?.DisplayImage || "satimg.png"}
-            collectable={data?.AnnualRainCollection / 1000}
+            collectable={data?.AnnualRainCollectionMm / 1000}
             rainfall={data?.AnnualRainfall}
             roofSize={data?.RoofSurfaceAreaSqm}
           />
           <Rainfall
             rainfall={data?.MonthlyRainfall || []}
-            consumption={data?.MonthlyConsumption || []}
+            consumption={data?.MonthlyConsumptionMm || []}
             annualRainfall={data?.AnnualRainfall}
           />
           <Consumption
             rainfall={data?.MonthlyRainfall || []}
-            consumption={data?.MonthlyConsumption || []}
-            collectable={data?.AnnualRainCollection / 1000}
+            consumption={data?.MonthlyConsumptionMm || []}
+            collectable={data?.AnnualRainCollectionMm / 1000}
           />
           <TankSize
             size={45000}

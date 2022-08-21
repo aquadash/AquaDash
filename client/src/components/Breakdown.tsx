@@ -33,7 +33,7 @@ const Breakdown: FC<{
               <div className="is-relative mb-10" style={{ height: "448px" }}>
                 <img
                   className="image is-fullwidth is-cover is-rounded"
-                  style={{ height: "448px" }}
+                  style={{ height: "448px", borderRadius: "25%" }}
                   src={image}
                   alt=""
                 />

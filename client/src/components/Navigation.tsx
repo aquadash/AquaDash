@@ -31,15 +31,11 @@ const Navigation = () => (
         <div className="navbar-end">
           <ul className="navbar-item">
             <li>
-              <a className="navbar-item" href="/about">
-                About
-              </a>
-            </li>
-            <li></li>
-            <li></li>
-            <li>
-              <a className="navbar-item" href="/methodology">
-                Methodology
+              <a
+                className="navbar-item"
+                href="https://hackerspace.govhack.org/projects/aquadash"
+              >
+                GovHack Project
               </a>
             </li>
           </ul>

@@ -41,7 +41,13 @@ const Estimate: FC<{ savings: any }> = ({ savings }) => (
             className="mb-3 title is-1 is-pulled-right has-text-primary"
             contentEditable="false"
           >
-            {savings || "No Data"}
+            {savings
+              ? new Intl.NumberFormat("en-NZ", {
+                  style: "currency",
+                  currency: "AUD",
+                  maximumSignificantDigits: 4,
+                }).format(Math.round(Number(savings.replace("$", ""))))
+              : "No Data"}
           </h3>
         </div>
       </div>
