@@ -33,6 +33,13 @@ interface IApiResponse {
   };
 }
 
+const regulationLinks = [
+  "https://www.sunshinecoast.qld.gov.au/Development/Building-and-Plumbing/Rainwater-Tanks",
+  "https://www.moretonbay.qld.gov.au/files/assets/public/services/building-development/building-plumbing/building-approval-requirements-fact-sheet.pdf",
+  "https://www.noosa.qld.gov.au/planning-development/building-plumbing/stormwater-water-collection#:~:text=Rainwater%20Tanks,plumbing%20approval%20is%20not%20required.",
+  "https://www.scenicrim.qld.gov.au/downloads/file/4120/guideline-for-rainwater-tanks-fact-sheet",
+];
+
 function App() {
   const [data, setData] = useState<IApiResponse | undefined>({
     Address: "24 Young St, Milton QLD 4064",
@@ -147,7 +154,14 @@ function App() {
             consumption={data?.MonthlyConsumption || []}
             collectable={data?.AnnualRainCollection / 1000}
           />
-          <TankSize size={45000} regulation={"https://www.example.com"} />
+          <TankSize
+            size={45000}
+            regulation={
+              regulationLinks[
+                Math.floor(Math.random() * regulationLinks.length)
+              ]
+            }
+          />
         </>
       )}
     </>
