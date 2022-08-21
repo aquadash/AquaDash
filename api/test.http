@@ -4,11 +4,11 @@ Content-Type: application/json
 
 {"address":"1 Denison Street, North Sydney, Australia"}
 
-### POST Decv
+### POST Dev
 POST https://govhack-function-dev.azurewebsites.net/api/GetRainfallByAddress
 Content-Type: application/json
 
-{"address":"2 Denison Street, North Sydney, Australia"}
+{"address":"1 Denison Street, North Sydney, Australia"}
 
 ### POST PROD
 POST https://govhack-function.azurewebsites.net/api/GetRainfallByAddress
