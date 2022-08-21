@@ -4,8 +4,28 @@ import azure.functions as func
 import json
 from RainfallHelper import *
 from gmaps_query import gmaps_sat_image, gmaps_area_lat_long
-from roof_segmentation import roof_segmentation
+from roof_segmentation import roof_segmentation, image_to_string
 from consumption_helper import get_water_usage
+
+def calc_water_savings(roof_size, avg_rainfall):
+    return roof_size * avg_rainfall # sqm * mm = L
+
+def potential_savings(monthly_consumption, annual_rain, roof_surface_area_in_square_meters):
+
+    # Get how much water we can save
+    water_harvest_potential = calc_water_savings(roof_surface_area_in_square_meters, annual_rain) # in litres
+
+    # Calculate average daily consumption
+    avg_usage = []
+    for month in monthly_consumption:
+        avg_usage.append(month["TotalConsumed"]/30)
+    avg_usage = sum(avg_usage)/len(avg_usage)
+
+    # calculate potiential savings
+    # NOTE: 822L threshold is based on UnityWater's pricing tiers
+    potential_savings =  water_harvest_potential * 0.667 if (avg_usage < 823) else water_harvest_potential * 1.333
+
+    return potential_savings, water_harvest_potential
 
 
 def main(req: func.HttpRequest) -> func.HttpResponse:
@@ -25,6 +45,7 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
 
     roof_highlight_color = (255, 153, 0)  # (Blue,Green,Red) format not RGB
     disp_img, area_percent = roof_segmentation(sat_img, roof_highlight_color)
+    segmented_img_buffer = image_to_string(disp_img)
 
     total_area, latitude, longitude = gmaps_area_lat_long(address)
     roof_surface_area_in_square_meters = round(total_area*area_percent, 2)
@@ -46,16 +67,19 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
     monthly_consumption = get_water_usage("21270260")
     # TODO: implement check to ensure monthly data returns same # of periods
 
+    # Water savings
+    predicted_savings_potential, water_harvest_potential = potential_savings(monthly_consumption, annual_rain, roof_surface_area_in_square_meters)
+
     final_result = {
         "Address": address,
         "Latitude": latitude,
         "Longitude": longitude,
         "MonthlyRainfall": monthly_rain,
         "RoofSurfaceAreaSqm": roof_surface_area_in_square_meters,
-        "AnnualRainCollectionMm": round(annual_rain * roof_surface_area_in_square_meters, 2),
+        "AnnualRainCollectionMm": water_harvest_potential,
         "MonthlyConsumptionMm":monthly_consumption,
-        "TotalCostSaving": "$TBC",
-        "DisplayImage": "TBC_StringBuffer"
+        "TotalCostSaving": "$" + str(round(predicted_savings_potential, 2)),
+        "DisplayImage": "data:image/gif;base64," + segmented_img_buffer
     }
 
     return func.HttpResponse(json.dumps(
