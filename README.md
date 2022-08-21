@@ -5,7 +5,7 @@ The issue of sustainable water use presents a growing challenge in Australia, dr
 
 AquaDash uses Artificial Intelligence to estimate the user’s roof surface area from the Google Maps image and combine that with the water tank size guidelines to recommend a water tank size for the household. Using the rainfall data for their location in the Sunshine Coast region, the tool estimates how much water can be collected and saved by adopting the recommended water tank. By combining this information with the user household’s water consumption data from Unitywater, AquaDash quantifies and presents the potential savings the user can achieve in a personalised dashboard.
 
-### Tackling the problem statement
+# Tackling the problem statement
 
 The project addresses multiple problem statement elements:
 
@@ -33,6 +33,10 @@ Below is a summary of the ways in which AquaDash can be extended to provide an e
  * More accurate estimations for how much the user could save by implementing a tank.
  * Track consumption changes after adding this device to their home (e.g. show the effect of different devices on consumption)
  
+ # Data story and architecture
+ 
+ ![Architecture diagram]("solution_architecture.png")
+
  AquaDash utilises multiple datasets and Machine Learning techniques that can be divided into three key steps:
 
 * __Roof surface area calculation and tank size estimation:__
