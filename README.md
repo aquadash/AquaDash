@@ -35,7 +35,7 @@ Below is a summary of the ways in which AquaDash can be extended to provide an e
  
  # Data story and architecture
  
- ![Architecture diagram]("project_architecture.png")
+ ![Architecture diagram](project_architecture.png)
 
  AquaDash utilises multiple datasets and Machine Learning techniques that can be divided into three key steps:
 
