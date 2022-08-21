@@ -27,10 +27,10 @@ class Rainfall:
 
 
 def mock_monthly_trend(annual_rainfall):
-    annual_average = [159.6,158.3,140.7,92.5,73.7,67.8,56.5,45.9,45.7,75.4,97.0,133.3]
+    annual_average = [101.2,119.3,131.6,126.5,117.4,133.1,96.3,80.2,68.1,76.7,83.8,77.1]
     mean = sum(annual_average)/len(annual_average)
     delta = [x - mean for x in annual_average]
-    return [round(annual_rainfall + x, 2) for x in delta]
+    return [round(annual_rainfall/12 + x, 2) for x in delta]
 
 def get_data():
     logging.info('Creating tree and reference data')

@@ -74,6 +74,7 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
         "Address": address,
         "Latitude": latitude,
         "Longitude": longitude,
+        "AnnualRainfall": annual_rain,
         "MonthlyRainfall": monthly_rain,
         "RoofSurfaceAreaSqm": roof_surface_area_in_square_meters,
         "AnnualRainCollectionMm": water_harvest_potential,
