@@ -1,4 +1,6 @@
-const Estimate = () => (
+import { FC } from "react";
+
+const Estimate: FC<{ savings: any }> = ({ savings }) => (
   <section className="section py-20 has-background-light mt-8">
     <div className="container">
       <div className="columns is-vcentered">
@@ -39,7 +41,7 @@ const Estimate = () => (
             className="mb-3 title is-1 is-pulled-right has-text-primary"
             contentEditable="false"
           >
-            $18,000
+            {savings || "No Data"}
           </h3>
         </div>
       </div>
