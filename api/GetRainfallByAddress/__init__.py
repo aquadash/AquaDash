@@ -23,7 +23,7 @@ def potential_savings(monthly_consumption, annual_rain, roof_surface_area_in_squ
 
     # calculate potiential savings
     # NOTE: 822L threshold is based on UnityWater's pricing tiers
-    potential_savings =  water_harvest_potential * 0.667 if (avg_usage > 822) else water_harvest_potential * 1.333
+    potential_savings =  water_harvest_potential * 0.667 if (avg_usage < 823) else water_harvest_potential * 1.333
 
     return potential_savings, water_harvest_potential
 
@@ -75,7 +75,7 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
         "Longitude": longitude,
         "MonthlyRainfall": monthly_rain,
         "RoofSurfaceAreaSqm": roof_surface_area_in_square_meters,
-        "AnnualRainCollectionMm": round(annual_rain * roof_surface_area_in_square_meters, 2),
+        "AnnualRainCollectionMm": water_harvest_potential,
         "MonthlyConsumptionMm":monthly_consumption,
         "TotalCostSaving": "$" + str(round(predicted_savings_potential, 2)),
         "DisplayImage": "TBC_StringBuffer"
