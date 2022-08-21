@@ -1,9 +1,11 @@
 ## AquaDash
-The official AquaDash repository for GovHack 2022
+The official AquaDash repository for GovHack 2022. Link to AquaDash: https://delightful-grass-0b7fb9700.1.azurestaticapps.net/
 
 The issue of sustainable water use presents a growing challenge in Australia, driven by the increasing consumption, climate variability and low reuse. AquaDash is a water tank recommendation tool that quantifies potential water bill savings and provides personalised guidelines on what tank the user needs, based just on their address. AquaDash will empower the Sunshine Coast residents to drive more efficient, sustainable water usage for their households and for the region as a whole.
 
 AquaDash uses Artificial Intelligence to estimate the user’s roof surface area from the Google Maps image and combine that with the water tank size guidelines to recommend a water tank size for the household. Using the rainfall data for their location in the Sunshine Coast region, the tool estimates how much water can be collected and saved by adopting the recommended water tank. By combining this information with the user household’s water consumption data from Unitywater, AquaDash quantifies and presents the potential savings the user can achieve in a personalised dashboard.
+
+![image](https://user-images.githubusercontent.com/67055891/185778287-5f3d773e-ed7e-45bd-84d9-72b1eab5fb3b.png)
 
 ## Tackling the problem statement
 
